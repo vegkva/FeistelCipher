@@ -18,14 +18,20 @@ from helpers import *
 def feistel(input, key):
     output = []
     """INPUT"""
-    permuted_input = initPermute(input)
+    if isinstance(input, str):
+        permuted_input = initPermute(splitWord(input))
+    else:
+        permuted_input = initPermute(input)
     left_half = splitInput(permuted_input)[0]
     left_half_output = splitInput(permuted_input)[1]
 
 
     """KEY SCHEDULE"""
     # 64bit key -> 48bit key
-    key_48 = keySchedule(key)
+    if isinstance(key, str):
+        key_48 = keySchedule(splitWord(key))
+    else:
+        key_48 = keySchedule(key)
 
     """ROUND FUNCTION"""
     # expand right half 32bit -> 48bit
@@ -55,7 +61,12 @@ def feistel(input, key):
     output += final_rightHalf
 
     # final permutatation
-    final_output = finalPermute(output)
-    return final_output
+    #final_output = finalPermute(output)
+    return output
 
-print(feistel(test, key_64))
+
+
+round_1 = feistel(plaintext, test_key1)
+
+print(list_to_string(round_1, 8))
+

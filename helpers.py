@@ -1,5 +1,8 @@
-test = [0,0,0,1,0,0,0,0,1,0,1,1,0,1,1,1,0,1,1,0,0,1,1,1,1,1,0,0,0,0,1,1,1,0,0,
-        1,0,1,0,1,1,0,1,1,1,0,0,0,0,1,0,0,0,1,0,0,0,0,0,0,1,0,1,1]
+
+"""Plaintext ("hello") in binary"""
+plaintext = "01110000 01100001 01110011 01110011 01110111 01101111 01110010 01100100"
+
+test_key1 = "0"*64
 
 test_key = [1,1,0,1,0,0,0,0,0,0,1,0,0,1,1,1,1,1,0,0,0,1,0,0,1,1,1,1,1,0,0,0,
             1,0,1,0,1,0,0,0,1,0,1,0,1,1,0,1,1,1,0,1,1,1,1,0,1,0,1,1,1,0,0,1]
@@ -90,6 +93,14 @@ def xor(v1,v2):
         result.append((v1[i] + v2[i]) % 2)
     return result
 
+def split(a, n):
+    k, m = divmod(len(a), n)
+    return (a[i*k+min(i, m):(i+1)*k+min(i+1, m)] for i in range(n))
+
+"""Splits word into list as integers"""
+def splitWord(word):
+    return [int(char) for char in word.replace(" ", "")]
+
 def splitKey(input):
     result = [input[:-28], input[28:]]
     return result
@@ -172,7 +183,7 @@ def s_box_function(input, s_box):
     bits_list = input
     row = int(str(bits_list[0]) + str(bits_list[5]), 2)
     col = int((str(bits_list[1]) + str(bits_list[2]) + str(bits_list[3]) + str(bits_list[4])), 2)
-    dec = format(sbox[s_box][row][col], '04b')
+    dec = format(sbox[0][row][col], '04b')
     for bit in dec:
         result.append(int(bit))
     return result
@@ -183,3 +194,10 @@ def permute_round(input):
         result.insert(i, input[P_box[i] - 1])
     return result
 
+def list_to_string(list, space):
+    result = ""
+    for bit in list:
+        result += str(bit)
+        if (len(result) % space == 0):
+            result += " "
+    return result
