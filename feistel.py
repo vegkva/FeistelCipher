@@ -19,19 +19,19 @@ def feistel(input, key):
     output = []
     """INPUT"""
     if isinstance(input, str):
-        permuted_input = initPermute(splitWord(input))
+        permuted_input = init_permute(split_word(input))
     else:
-        permuted_input = initPermute(input)
-    left_half = splitInput(permuted_input)[0]
-    left_half_output = splitInput(permuted_input)[1]
+        permuted_input = init_permute(input)
+    left_half_input = split_input(permuted_input)[0]
+    left_half_output = split_input(permuted_input)[1]
 
 
     """KEY SCHEDULE"""
     # 64bit key -> 48bit key
     if isinstance(key, str):
-        key_48 = keySchedule(splitWord(key))
+        key_48 = key_schedule(split_word(key))
     else:
-        key_48 = keySchedule(key)
+        key_48 = key_schedule(key)
 
     """ROUND FUNCTION"""
     # expand right half 32bit -> 48bit
@@ -53,7 +53,7 @@ def feistel(input, key):
     # P-box permutation
     round_function_output = permute_round(s_box_output)
 
-    final_rightHalf = xor(left_half, round_function_output)
+    final_rightHalf = xor(left_half_input, round_function_output)
 
     # first add left half
     output += left_half_output

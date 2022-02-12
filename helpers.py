@@ -98,24 +98,24 @@ def split(a, n):
     return (a[i*k+min(i, m):(i+1)*k+min(i+1, m)] for i in range(n))
 
 """Splits word into list as integers"""
-def splitWord(word):
+def split_word(word):
     return [int(char) for char in word.replace(" ", "")]
 
-def splitKey(input):
+def split_key(input):
     result = [input[:-28], input[28:]]
     return result
 
-def splitInput(input):
+def split_input(input):
     result = [input[:-32], input[32:]]
     return result
 
-def initPermute(input):
+def init_permute(input):
     result = []
     for i in range(len(initial_permutation)):
         result.insert(i, input[initial_permutation[i] - 1])
     return result
 
-def finalPermute(input):
+def final_permute(input):
     result = []
     for i in range(len(final_permutation)):
         result.insert(i, input[final_permutation[i] - 1])
@@ -128,13 +128,13 @@ def expand(input):
     return output
 
 
-def keySchedule(key):
+def key_schedule(key):
     # permuted choice 1 (64bit key -> 56bit key)
     key_56 = pc1(key)
     # splitting key into two 28bit keys
-    split_key = splitKey(key_56)
+    keys = split_key(key_56)
     # bit rotate
-    rotated_key = rotateKey(split_key[0], split_key[1], 16)
+    rotated_key = rotate_key(keys[0], keys[1], 16)
     # permuted choice 2 (56bit key -> 48bit key)
     key_48 = pc2(rotated_key)
     return key_48
@@ -152,7 +152,7 @@ def pc2(key):
     return result
 
 
-def rotateKey(firstKey, secondKey, round):
+def rotate_key(firstKey, secondKey, round):
     result = []
     intermediate1 = firstKey.copy()
 
